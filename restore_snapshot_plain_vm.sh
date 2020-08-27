@@ -20,7 +20,7 @@ sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-drive file=$HOME/trampoline/ubuntu-mod.img,if=none,id=disk0,format=qcow2 \
 	-device virtio-scsi-pci,id=scsi,disable-legacy=on,iommu_platform=true \
 	-device scsi-hd,drive=disk0 \
-    -display vnc=:32 \
+    -nographic \
 	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf.log \
 	-qmp unix:$HOME/trampoline/qmp-sock,server,nowait \
     -chardev stdio,id=char0,logfile=serial.log,signal=off,mux=on \
