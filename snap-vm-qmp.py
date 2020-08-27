@@ -61,7 +61,7 @@ cr3 = "0x{}".format(m[1])
 virt_addr = "0xffff88800080c000"
 
 print("--- clear NX flag")
-shell_cmd("./state-blob/clear-nx-bit mem-dump.bin {} {}".format(cr3, virt_addr))
+shell_cmd("./memdump/modify-mem-dump mem-dump.bin {} {}".format(cr3, virt_addr))
 
 print("--- save mem-dump-1.bin")
 shell_cmd("dd if=mem-dump.bin of=mem-dump-1.bin bs=4096 count={}".format(0x80b))
