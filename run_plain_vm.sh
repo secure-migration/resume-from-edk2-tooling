@@ -16,16 +16,16 @@ echo "Launching VM ..."
 sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-name dubek2 \
 	-enable-kvm -cpu EPYC -machine q35 -m 1G \
-	-drive if=pflash,format=raw,unit=0,file=/home/tobin/trampoline/edk2-internal/Build/AmdSev/DEBUG_GCC5/FV/AMDSEV.fd,readonly \
+	-drive if=pflash,format=raw,unit=0,file=$HOME/trampoline/edk2-internal/Build/AmdSev/DEBUG_GCC5/FV/AMDSEV.fd,readonly \
 	-fw_cfg name=opt/ovmf/PcdSevIsMigrationHandler,string=0 \
-	-drive file=/home/tobin/trampoline/ubuntu-mod.img,if=none,id=disk0,format=qcow2 \
+	-drive file=$HOME/trampoline/ubuntu-mod.img,if=none,id=disk0,format=qcow2 \
 	-device virtio-scsi-pci,id=scsi,disable-legacy=on,iommu_platform=true \
 	-device scsi-hd,drive=disk0 \
 	$NET_ARGS \
     -nographic \
 	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf.log \
-	-qmp unix:/home/tobin/trampoline/qmp-sock,server,nowait \
-	-monitor unix:/home/tobin/trampoline/qemu-sock,server,nowait \
+	-qmp unix:$HOME/trampoline/qmp-sock,server,nowait \
+	-monitor unix:$HOME/trampoline/qemu-sock,server,nowait \
         -monitor pty
 
 	#-drive file=tmp.qcow2,if=none,id=disk0,format=qcow2 \

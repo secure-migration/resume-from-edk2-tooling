@@ -1,4 +1,7 @@
 #!/bin/bash
+
+QMPSOCK="$HOME/trampoline/qmp-sock"
+
 clear
 echo '+ Split window and run QEMU'
 tmux split-window \; last-pane
@@ -19,15 +22,15 @@ tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop' Enter
 #tmux send-keys -t $NEW_PANE_ID 'cat /proc/uptime' Enter
 sleep 0.5
 echo '+ Pause the VM and record its memory and CPU state'
-sudo ./snap-vm-qmp.py /home/tobin/trampoline/qmp-sock > /home/tobin/trampoline/state-blob/qemu.txt
-make -C /home/tobin/trampoline/state-blob
+sudo ./snap-vm-qmp.py $QMPSOCK > $HOME/trampoline-tooling/state-blob/qemu.txt
+make -C $HOME/trampoline-tooling/state-blob
 sleep 1
 echo '+ Attempting VM snapshot restore'
 tmux send-keys -t $NEW_PANE_ID './restore_snapshot_plain_vm.sh' Enter
 echo '+ Wait for OVMF Migration Handler'
 sleep 5
 echo '+ Reload memory into VM'
-sudo ./reload-saved-memory-qmp.py /home/tobin/trampoline/qmp-sock
+sudo ./reload-saved-memory-qmp.py $QMPSOCK
 echo '+ Wait for final restore'
 sleep 5
 echo '+ Send ^] to the VM'
