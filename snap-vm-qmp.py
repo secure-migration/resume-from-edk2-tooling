@@ -18,6 +18,9 @@ def hmp_cmd(srv, command_line):
     print(rsp['return'])
     return rsp['return']
 
+def shell_cmd(command_line):
+    print(">>> Shell: {}".format(command_line))
+    os.system(command_line)
 
 target_socket = sys.argv[1]
 
@@ -32,17 +35,13 @@ print(rsp)
 info_registers = hmp_cmd(srv, "info registers")
 hmp_cmd(srv, "gva2gpa 0xfffffe0000000000")
 hmp_cmd(srv, "gva2gpa 0xfffffe0000001000")
+hmp_cmd(srv, "gva2gpa 0xfffffe0000003000")
 hmp_cmd(srv, "x /32xg 0xfffffe0000000000")
 hmp_cmd(srv, "x /16xg 0xfffffe0000001000")
+hmp_cmd(srv, "x /32xg 0xfffffe0000003000")
 
 hmp_cmd(srv, "savevm save3")
 
-#print("--- dump part 1")
-#rsp = srv.cmd("pmemsave", {"val": 0x0, "size": 0x80b000, "filename": "mem-dump-1.bin"})
-#print(rsp)
-#print("--- dump part 2")
-#rsp = srv.cmd("pmemsave", {"val": 0x80e000, "size": 0x3F7F2000, "filename": "mem-dump-2.bin"})
-#print(rsp)
 print("--- dump memory")
 rsp = srv.cmd("pmemsave", {"val": 0x0, "size": 1 * GB, "filename": "mem-dump.bin"})
 print(rsp)
@@ -62,9 +61,10 @@ cr3 = "0x{}".format(m[1])
 virt_addr = "0xffff88800080c000"
 
 print("--- clear NX flag")
-os.system("./state-blob/clear-nx-bit mem-dump.bin {} {}".format(cr3, virt_addr))
+shell_cmd("./state-blob/clear-nx-bit mem-dump.bin {} {}".format(cr3, virt_addr))
 
 print("--- save mem-dump-1.bin")
-os.system("dd if=mem-dump.bin of=mem-dump-1.bin bs=4096 count={}".format(0x80b))
+shell_cmd("dd if=mem-dump.bin of=mem-dump-1.bin bs=4096 count={}".format(0x80b))
 print("--- save mem-dump-2.bin")
-os.system("dd if=mem-dump.bin of=mem-dump-2.bin bs=4096 skip={} count={}".format(0x80e, 0x3f7f2))
+shell_cmd("dd if=mem-dump.bin of=mem-dump-2.bin bs=4096 skip={} count={}".format(0x80e, 0x3f7f2))
+print("--- done")
