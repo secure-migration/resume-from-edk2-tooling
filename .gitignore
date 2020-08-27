@@ -1,2 +1,6 @@
 *.o
 memdump/modify-mem-dump
+state-blob/*.i
+state-blob/state-blob
+state-blob/cpu_state.bin
+state-blob/qemu.txt
