@@ -33,8 +33,8 @@ echo '+ Reload memory into VM'
 sudo ./reload-saved-memory-qmp.py $QMPSOCK
 echo '+ Wait for final restore'
 sleep 5
-echo '+ Send ^] to the VM'
-tmux send-keys -t $NEW_PANE_ID '^]'
+echo '+ Send quit command to the VM'
+sudo ./send-qmp-cmd.py $QMPSOCK quit
 sleep 1
 echo '+ Close the other pane'
 tmux send-keys -t $NEW_PANE_ID 'exit' Enter
