@@ -1,6 +1,7 @@
 #!/bin/bash
 
-NET_ARGS="-nic user,mac=52:54:00:66:77:88,hostfwd=tcp::9022-:22"
+SSHPORT=${VM_SSH_PORT:-9022}
+NET_ARGS="-nic user,mac=52:54:00:66:77:88,hostfwd=tcp::${SSHPORT}-:22"
 if [ x"$1" = x"-nonet" ] ; then
   NET_ARGS=""
 fi
@@ -14,7 +15,7 @@ echo "Launching VM ..."
 # sudo qemu-system-x86_64 \
 
 sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
-	-name dubek2 \
+	-name "vm-$USER" \
 	-enable-kvm -cpu EPYC -machine q35 -m 1G \
 	-drive if=pflash,format=raw,unit=0,file=$HOME/trampoline/edk2-internal/Build/AmdSev/DEBUG_GCC5/FV/AMDSEV.fd,readonly \
 	-fw_cfg name=opt/ovmf/PcdSevIsMigrationHandler,string=0 \
