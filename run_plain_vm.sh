@@ -24,8 +24,10 @@ sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-device scsi-hd,drive=disk0 \
 	$NET_ARGS \
     -nographic \
-	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf.log \
+	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf-1.log \
 	-qmp unix:$HOME/trampoline/qmp-sock,server,nowait \
+    -chardev stdio,id=char0,logfile=serial-1.log,signal=off,mux=on \
+    -serial chardev:char0 \
 	-monitor unix:$HOME/trampoline/qemu-sock,server,nowait \
         -monitor pty
 

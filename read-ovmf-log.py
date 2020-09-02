@@ -28,4 +28,4 @@ def process(filename):
 if len(sys.argv) > 1:
     process(sys.argv[1])
 else:
-    process('ovmf.log')
+    process('ovmf-2.log')

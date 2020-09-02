@@ -21,13 +21,13 @@ sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
 	-device virtio-scsi-pci,id=scsi,disable-legacy=on,iommu_platform=true \
 	-device scsi-hd,drive=disk0 \
     -nographic \
-	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf.log \
+	-global isa-debugcon.iobase=0x402 -debugcon file:ovmf-2.log \
 	-qmp unix:$HOME/trampoline/qmp-sock,server,nowait \
-    -chardev stdio,id=char0,logfile=serial.log,signal=off,mux=on \
+    -chardev stdio,id=char0,logfile=serial-2.log,signal=off,mux=on \
     -serial chardev:char0 \
 	-monitor unix:$HOME/trampoline/qemu-sock,server,nowait \
     -monitor chardev:char0 \
-	-loadvm save3 2> qemu-stderr.log
+	-loadvm save3 2> qemu-stderr-2.log
 
 # restore the mapping
 # stty intr ^c
