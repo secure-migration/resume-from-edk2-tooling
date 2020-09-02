@@ -33,6 +33,8 @@ rsp = srv.cmd("stop")
 print(rsp)
 
 info_registers = hmp_cmd(srv, "info registers")
+hmp_cmd(srv, "info lapic")
+hmp_cmd(srv, "info pic")
 hmp_cmd(srv, "gva2gpa 0xfffffe0000000000")
 hmp_cmd(srv, "gva2gpa 0xfffffe0000001000")
 hmp_cmd(srv, "gva2gpa 0xfffffe0000003000")
