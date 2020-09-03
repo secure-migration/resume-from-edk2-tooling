@@ -1,6 +1,12 @@
 #!/bin/bash
 
 QMPSOCK="$HOME/trampoline/qmp-sock"
+ENTER_ZZZLOOP=0
+CPU_STATE_ARGS=""
+if [ "$1" = "--zzzloop" ] ; then
+  ENTER_ZZZLOOP=1
+  CPU_STATE_ARGS="--escape-zzzloop"
+fi
 
 clear
 echo '+ Split window and run QEMU'
@@ -18,12 +24,17 @@ tmux send-keys -t $NEW_PANE_ID 'root' Enter
 sleep 0.5
 tmux send-keys -t $NEW_PANE_ID 'gocubsgo' Enter
 sleep 1
-tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop' Enter
-#tmux send-keys -t $NEW_PANE_ID 'cat /proc/uptime' Enter
-sleep 0.5
+echo '+ Start kernel timers in source VM'
+tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop_apic_flag_on /proc/zzzloop_timer_start /proc/uptime' Enter
+sleep 1
+if [ "$ENTER_ZZZLOOP" = "1" ] ; then
+  echo '+ Enter zzzloop in source VM'
+  tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop' Enter
+  sleep 0.5
+fi
 echo '+ Pause the VM and record its memory and CPU state'
 sudo ./snap-vm-qmp.py $QMPSOCK > $HOME/trampoline-tooling/state-blob/qemu.txt
-make -C $HOME/trampoline-tooling/state-blob
+(cd state-blob && ./generate_cpu_state.sh $CPU_STATE_ARGS)
 sleep 1
 echo '+ Attempting VM snapshot restore'
 tmux send-keys -t $NEW_PANE_ID './restore_snapshot_plain_vm.sh' Enter
