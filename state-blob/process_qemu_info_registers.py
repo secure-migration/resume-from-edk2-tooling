@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 
+import argparse
 import re
 import sys
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--rip-offset", help="add this offset to the RIP in the state", type=int, default=0)
+args = parser.parse_args()
+
 s = {}
+s['rip_offset'] = args.rip_offset;
 
 for line in sys.stdin:
     p = re.findall(r'([A-Z0-9_]+ ?)=([0-9a-f]+)', line)
@@ -41,7 +47,7 @@ code = """
   s.regs.r15 = 0x{r15};
   s.regs.flags = 0x{rfl};
   s.regs.orig_ax = 0x{rax};
-  s.regs.ip = 0x{rip};
+  s.regs.ip = 0x{rip} + {rip_offset};
   s.regs.cs = 0x{cs};
   s.regs.ss = 0x{ss};
   s.ds = 0x{ds};
