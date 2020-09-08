@@ -12,9 +12,7 @@ stty intr ^]
 
 echo "Launching VM ..."
 
-# sudo qemu-system-x86_64 \
-
-sudo /home/dmurik/qemu/x86_64-softmmu/qemu-system-x86_64 \
+sudo /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
 	-name "vm-$USER" \
 	-enable-kvm -cpu EPYC -machine q35 -m 1G \
 	-drive if=pflash,format=raw,unit=0,file=$HOME/trampoline/edk2-internal/Build/AmdSev/DEBUG_GCC5/FV/AMDSEV.fd,readonly \
