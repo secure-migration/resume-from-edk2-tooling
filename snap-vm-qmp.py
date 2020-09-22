@@ -48,6 +48,14 @@ print("--- dump memory")
 rsp = srv.cmd("pmemsave", {"val": 0x0, "size": 1 * GB, "filename": "mem-dump.bin"})
 print(rsp)
 
+#print("--- dump hpet memory")
+#rsp = srv.cmd("pmemsave", {"val": 0xfed00000, "size": 1 * KB, "filename": "hpet-mem-dump.bin"})
+#print(rsp)
+
+print("--- save devices state")
+rsp = srv.cmd("xen-save-devices-state", {"filename": "devices-state.bin"}) #, "live": False})
+print(rsp)
+
 print("--- exiting")
 rsp = srv.cmd("quit", {})
 print(rsp)

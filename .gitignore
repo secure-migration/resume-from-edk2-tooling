@@ -6,3 +6,4 @@ state-blob/cpu_state.bin
 state-blob/qemu.txt
 *.log
 mem-dump*.bin
+devices-state.bin
