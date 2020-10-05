@@ -1,12 +1,7 @@
 #!/bin/bash
 
 QMPSOCK="$HOME/trampoline/qmp-sock"
-ENTER_ZZZLOOP=0
 CPU_STATE_ARGS=""
-if [ "$1" = "--zzzloop" ] ; then
-  ENTER_ZZZLOOP=1
-  CPU_STATE_ARGS="--escape-zzzloop"
-fi
 
 clear
 echo '+ Split window and run QEMU'
@@ -20,21 +15,16 @@ tmux send-keys -t $NEW_PANE_ID Enter
 echo '+ Wait for Linux to load'
 sleep 12
 echo '+ Login to linux'
+
+# if you want to login before migrating, make sure
+# this matches the credentials of your image.
+# if you don't want to login before migrating,
+# just comment this out.
 tmux send-keys -t $NEW_PANE_ID 'root' Enter
 sleep 0.5
 tmux send-keys -t $NEW_PANE_ID 'gocubsgo' Enter
 sleep 1
-#echo '+ Start user-mode timer in source VM'
-#tmux send-keys -t $NEW_PANE_ID '/root/usertimer.py' Enter
-#sleep 0.5
-#echo '+ Start kernel timers in source VM'
-#tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop_apic_flag_on /proc/zzzloop_timer_start /proc/uptime' Enter
-#sleep 2
-if [ "$ENTER_ZZZLOOP" = "1" ] ; then
-  echo '+ Enter zzzloop in source VM'
-  tmux send-keys -t $NEW_PANE_ID 'cat /proc/zzzloop' Enter
-  sleep 0.5
-fi
+
 echo '+ Pause the VM and record its memory and CPU state'
 sudo rm -f devices-state.bin hpet-mem-dump.bin mem-dump-1.bin mem-dump-2.bin mem-dump.bin
 sudo ./snap-vm-qmp.py $QMPSOCK > $HOME/trampoline-tooling/state-blob/qemu.txt
