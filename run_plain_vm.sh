@@ -27,16 +27,7 @@ sudo /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
     -chardev stdio,id=char0,logfile=serial-1.log,signal=off,mux=on \
     -serial chardev:char0 \
 	-monitor unix:$HOME/trampoline/qemu-sock,server,nowait \
-        -monitor pty
-
-	#-drive file=tmp.qcow2,if=none,id=disk0,format=qcow2 \
-	#-drive if=pflash,format=raw,unit=0,file=/usr/share/OVMF/OVMF_CODE.fd,readonly \
-#
-	#-global isa-debugcon.iobase=0x402 -debugcon file:ovmf.log \
-
-	#-chardev stdio,id=char0,logfile=serial.log,signal=off,mux=on \
-	#-serial chardev:char0 \
-	#-mon chardev=char0 \
+    -monitor chardev:char0 2> qemu-stderr-1.log 
 
 # restore the mapping
 stty intr ^c

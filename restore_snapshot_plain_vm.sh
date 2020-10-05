@@ -6,8 +6,6 @@ stty intr ^]
 
 echo "Launching VM ..."
 
-#sudo gdb -ex 'handle SIGUSR1 noprint' \
-#	--args /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
 sudo /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
 	-name "vm-$USER" \
 	-enable-kvm -cpu EPYC -machine q35 -m 1G \
@@ -28,5 +26,5 @@ sudo /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
 	-loadvm save3 2> qemu-stderr-2.log
 
 # restore the mapping
-# stty intr ^c
-# echo "VM stopped. Restored CTRL-C behaviour"
+stty intr ^c
+echo "VM stopped. Restored CTRL-C behaviour"
