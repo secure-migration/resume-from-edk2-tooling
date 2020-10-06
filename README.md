@@ -24,7 +24,7 @@ As discussed in the overview, a number of these steps violate the SEV trust mode
 
 ## How to run 
 
-A few temporary notes. We haven't setup the submodules yet or merged things into master. Just make sure you have 1) this repo 2) our edk2-internal repo 3) our QEMU repo. Make sure you are on branch 1) master 2) mh-state-dev 3) state-dev. We can also provide a VM image that is known to work with the demo, although you should be able to run with your own.
+A few temporary notes. We haven't setup the submodules yet or merged things into master. Just make sure you have 1) this repo 2) our edk2-internal repo 3) our QEMU repo. Make sure you are on branch 1) master 2) mh-state-dev 3) state-dev. We can also provide a VM image that is known to work with the demo, although you should be able to run with your own. Note that you may need to tweak the paths to the QEMU binary and to the the firmware build. These mostly live in `run_plain_vm.sh` and `restore_snapshot_plain_vm.sh`
 
 1. Checkout submodules
 2. Build QEMU 

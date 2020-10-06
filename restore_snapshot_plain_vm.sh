@@ -11,7 +11,6 @@ sudo /home/dmurik/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
 	-enable-kvm -cpu EPYC -machine q35 -m 1G \
 	-drive if=pflash,format=raw,unit=0,file=$HOME/trampoline/edk2-internal/Build/AmdSev/DEBUG_GCC5/FV/AMDSEV.fd,readonly \
 	-fw_cfg name=opt/ovmf/PcdSevIsMigrationHandler,string=1 \
-	-fw_cfg name=opt/ovmf/PcdMigrationStateCR3,string=0x3a71c000 \
 	-fw_cfg name=opt/ovmf/PcdMigrationStatePage,file=$HOME/trampoline-tooling/state-blob/cpu_state.bin \
 	-drive file=$HOME/trampoline/ubuntu-mod.img,if=none,id=disk0,format=qcow2 \
 	-device virtio-scsi-pci,id=scsi,disable-legacy=on,iommu_platform=true \
