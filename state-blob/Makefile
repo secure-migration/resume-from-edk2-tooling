@@ -1,4 +1,4 @@
-EDK2_INCLUDE_DIR = $(HOME)/trampoline/edk2-internal/AmdSevPkg/SevLaunchSecret/MigrationHandler
+EDK2_INCLUDE_DIR = $(HOME)/trampoline/edk2-internal/AmdSevPkg/ResumeFromEfi
 CFLAGS += -I$(EDK2_INCLUDE_DIR) -g
 
 cpu_state.bin: state-blob
