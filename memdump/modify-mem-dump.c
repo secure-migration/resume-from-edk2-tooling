@@ -351,7 +351,12 @@ void modify_mem_dump(const char* filename, unsigned long cr3, unsigned long va) 
     printf("ClearPageNXFlag returned %d\n", rc);
 
     printf("modify TSS descriptor in GDT\n");
-    unsigned long gdt_phys_addr = 0x3f80b000;
+    // YOU NEED TO UPDATE THIS TO MATCH YOUR IMAGE.
+    // RUN gva2gpa in the monitor with the GDT base 
+    // address. We will automate at some point.
+    //unsigned long gdt_phys_addr = 0x3f80b000;
+    //unsigned long gdt_phys_addr = 0x3f808000;
+    unsigned long gdt_phys_addr = 0x3d00b000;
     unsigned long tss_offset = 0x40; // 8th entry in GDT
     unsigned long *tss_desc = (unsigned long *)(physmem + gdt_phys_addr + tss_offset);
     printf("before: tss_desc = %016lx\n", *tss_desc);

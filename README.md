@@ -45,6 +45,9 @@ A few temporary notes. We haven't setup the submodules yet or merged things into
 
 If you have trouble with any of the above steps, please reach out to `tobin@ibm.com`. It will probably take a long time if you try to figure things out on your own.
 
+Unfortunately there is also one annoying temporary step that you might need to do. You may need to edit `memdump/modify-mem-dump.c` and update the physical address that is hard-coded on line 359. You will only need to do this once per-image. You can get the guest physical address of the GDT by running `run_plain_vm.sh` and using the monitor (ctrl-a + c) to find the address of the gdt (use `info registers`) and resolve that to the GPA (use `gva2gpa`). Be sure to `make` the modify-mem-dump` program. We will automate this in future versions of the demo and the functionality that is currently being implemented by the `modify-mem-dump` program will happen inside of OVMF.
+
+
 ## What changes did we make? 
 
 Our changes are spread out over many commits in three different repositories. Here is a summary of what we did.
