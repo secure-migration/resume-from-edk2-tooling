@@ -2,6 +2,8 @@
 
 This is a demo showing how OVMF can load a VM snapshot. Normally the hypervisor would handle resuming a snapshot, but with SEV(-ES) the hypervisor is outside the trust domain of the guest so we resume from OVMF instead. This repository mainly contains tooling that you will need to run the demo. There is a separate EDK2 tree where Resume from EFI is implemented and a separate QEMu tree with a few temporary changes. 
 
+There is an overview of this demo, how it works, and why it matters in `OVERVIEW.md`. There is an outline an end-to-end implementation for SEV-ES live migration in `END-TO-END.md`. There is a list of some of the complications we will face getting from this demo to that implementation in `COMPLICATIONS.md`.
+
 ## What does the demo do? 
 
 1. Run a source VM 
@@ -22,6 +24,8 @@ As discussed in the overview, a number of these steps violate the SEV trust mode
 
 ## How to run 
 
+A few temporary notes. We haven't setup the submodules yet or merged things into master. Just make sure you have 1) this repo 2) our edk2-internal repo 3) our QEMU repo. Make sure you are on branch 1) master 2) mh-state-dev 3) state-dev. We can also provide a VM image that is known to work with the demo, although you should be able to run with your own.
+
 1. Checkout submodules
 2. Build QEMU 
     1. `mkdir build`
@@ -38,6 +42,8 @@ As discussed in the overview, a number of these steps violate the SEV trust mode
     3. Update `run-pain-vm-and-snap.sh` with image credentials (see comment in script)
 5. Run `run-plain-vm-and-snap.sh`
 6. Run `just-restore-from-snap.sh`
+
+If you have trouble with any of the above steps, please reach out to `tobin@ibm.com`. It will probably take a long time if you try to figure things out on your own.
 
 ## What changes did we make? 
 
